@@ -1,10 +1,12 @@
 
 CPPCOMPILER=g++
-CPPFLAGS=-I.
+IDIR=include
+CPPFLAGS=-I$(IDIR)
 SRC=src
 FEXECUTABLE=snapshot
 DEXECUTABLE=build
 CPPEXTENSION=.cpp
+
 
 _target_creation:
 	mkdir -p $(DEXECUTABLE)
