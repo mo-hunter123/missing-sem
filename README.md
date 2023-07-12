@@ -8,10 +8,10 @@
 	- [ ] Current total usage
 	- [ ] Current usage per application
 	- [ ] Current free
-- [ ] Monitor Memory
+- [x] Monitor Memory
 	- [x] Current total usage
 	- [x] Current total free
-	- [ ] Current usage per application
+	- [x] Current usage per application
 - [ ] Monitor Disk
 	- [ ] Available devices
 	- [ ] Available partitions

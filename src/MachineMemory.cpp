@@ -1,4 +1,4 @@
-#include "MachineMemory.h"
+#include "../include/MachineMemory.h"
 
 void MachineMemory::collectMachineMemoryMetrics()
 {
