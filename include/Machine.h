@@ -13,4 +13,5 @@ public:
     void init();
     MachineMemory* getMachineMemory();
     MachineProcesses* getMachineProcesses();
+    void updateMachineMetrics();
 };

@@ -13,3 +13,7 @@ machine_memory MachineMemory::getCurrentMemory()
 {
     return this->current;
 }
+
+void MachineMemory::updateMemoryStatistics() {
+    this->current = pullMachineMemoryInformations();
+}

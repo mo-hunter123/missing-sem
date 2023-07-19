@@ -21,3 +21,8 @@ MachineProcesses *Machine::getMachineProcesses()
 {
     return this->machineProcesses;
 }
+
+void Machine::updateMachineMetrics() {
+    this->getMachineProcesses()->updateProcessList();
+    this->getMachineMemory()->updateMemoryStatistics();
+}

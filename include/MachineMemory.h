@@ -17,6 +17,7 @@ private:
 public:
     void collectMachineMemoryMetrics();
     machine_memory getCurrentMemory();
+    void updateMemoryStatistics();
 };
 
 #endif
