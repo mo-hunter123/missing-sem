@@ -113,3 +113,23 @@ list<pid_t> *getCurrentProcessesPIDs()
 
     return pid_list;
 }
+
+string getProcessCmdLine(pid_t pid) {
+    string cmdline_file = PROCDIR + string("/") + to_string(pid) + PROCCMDLINE;
+    string cmdLine; 
+
+    ifstream file(cmdline_file);
+
+    if (!file)
+    {
+        cout << "Could not open " << PROCCMDLINE << endl;
+        cout << strerror(errno) << endl;
+        return "N/A";
+    }
+    else
+    {
+        file >> cmdLine; 
+        file.close();
+        return cmdLine;
+    }
+}

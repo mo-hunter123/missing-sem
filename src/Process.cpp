@@ -1,9 +1,10 @@
 #include "Process.h"
 
-Process::Process(memory_t memoryUsage, pid_t pid)
+Process::Process(memory_t memoryUsage, pid_t pid, string cmdLine)
 {
     this->memoryUsage = memoryUsage;
     this->pid = pid;
+    this->cmdline = cmdLine;
 }
 
 pid_t Process::getPid()
@@ -24,4 +25,8 @@ memory_t Process::getMemoryUsage()
 pid_t Process::getPID()
 {
     return this->pid;
+}
+
+string Process::getCmdLine() {
+    return this->cmdline;
 }

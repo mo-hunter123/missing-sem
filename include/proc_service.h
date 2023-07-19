@@ -7,6 +7,7 @@
 #define PROCDIR "/proc"
 #define PROCMEMINFO PROCDIR "/meminfo"
 #define PROCSMAPSROLLUP "/smaps_rollup"
+#define PROCCMDLINE "/cmdline"
 
 #define MEMTOTAL_TOKEN "MemTotal:"
 #define MEMAVAILABLE_TOKEN "MemAvailable:"
@@ -35,5 +36,7 @@ memory_t pullMemoryUsageByPID(pid_t pid, PULL_STATUS& status);
 machine_memory pullMachineMemoryInformations();
 std::list<pid_t> *getCurrentProcessesPIDs();
 std::list<std::string> *execute_linux_command(const char *cmd);
+std::string getProcessCmdLine(pid_t pid);
+
 
 #endif

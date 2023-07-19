@@ -20,4 +20,5 @@ public:
     void addProcess(Process *process);
     void toString();
     void constructProcessList();
+    void updateProcessList();
 };

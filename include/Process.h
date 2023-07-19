@@ -11,12 +11,14 @@ class Process
 private:
     memory_t memoryUsage;
     pid_t pid;
+    string cmdline;
 
 public:
-    Process(memory_t memoryUsage, pid_t pid);
+    Process(memory_t memoryUsage, pid_t pid, string cmdLine);
     pid_t getPid();
     memory_t getMemoryUsage();
     pid_t getPID();
+    string getCmdLine();
     string toString();
 };
 

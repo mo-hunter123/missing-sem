@@ -16,7 +16,9 @@ void MachineProcesses::toString()
 {
     for (auto &it : *(this->processList))
     {
-        std::cout << left << setw(10) << it.first << left << it.second->getMemoryUsage() << endl;
+        cout << setw(15) << left << it.first
+             << setw(15) << left << it.second->getMemoryUsage()
+             << setw(30) << left << it.second->getCmdLine() << endl;
     }
 }
 
@@ -28,11 +30,18 @@ void MachineProcesses::constructProcessList()
     {
         PULL_STATUS status = ERROR;
         memory_t process_memory = pullMemoryUsageByPID(pid, status);
+        string cmdLine = getProcessCmdLine(pid);
 
         if (status == SUCCESS)
         {
-            Process *process = new Process(process_memory, pid);
+            Process *process = new Process(process_memory, pid, cmdLine);
             this->addProcess(process);
         }
     }
+}
+
+void MachineProcesses::updateProcessList() {
+    // TODO: just run for new to destruct the list then reconstruct again 
+    this->processList->clear();
+    this->constructProcessList();
 }
