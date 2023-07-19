@@ -1,7 +1,6 @@
 #include "MachineProcesses.h"
 #include <iomanip>
 
-
 MachineProcesses::MachineProcesses()
 {
     this->processList = new unordered_map<pid_t, Process *>();
@@ -25,6 +24,7 @@ void MachineProcesses::toString()
 void MachineProcesses::constructProcessList()
 {
     list<pid_t> *pids_list = getCurrentProcessesPIDs();
+    this->uptime = getCPUUptime();
 
     for (auto &pid : *pids_list)
     {
@@ -40,8 +40,13 @@ void MachineProcesses::constructProcessList()
     }
 }
 
-void MachineProcesses::updateProcessList() {
-    // TODO: just run for new to destruct the list then reconstruct again 
+void MachineProcesses::updateProcessList()
+{
+    // TODO: just run for new to destruct the list then reconstruct again
     this->processList->clear();
     this->constructProcessList();
+}
+
+second_t MachineProcesses::getUptime() {
+    return this->uptime;
 }

@@ -47,7 +47,7 @@ machine_memory pullMachineMemoryInformations()
     file.close();
 }
 
-memory_t pullMemoryUsageByPID(pid_t pid, PULL_STATUS& status)
+memory_t pullMemoryUsageByPID(pid_t pid, PULL_STATUS &status)
 {
     string token;
     memory_t rss;
@@ -114,9 +114,10 @@ list<pid_t> *getCurrentProcessesPIDs()
     return pid_list;
 }
 
-string getProcessCmdLine(pid_t pid) {
+string getProcessCmdLine(pid_t pid)
+{
     string cmdline_file = PROCDIR + string("/") + to_string(pid) + PROCCMDLINE;
-    string cmdLine; 
+    string cmdLine;
 
     ifstream file(cmdline_file);
 
@@ -128,8 +129,27 @@ string getProcessCmdLine(pid_t pid) {
     }
     else
     {
-        file >> cmdLine; 
+        file >> cmdLine;
         file.close();
         return cmdLine;
+    }
+}
+
+second_t getCPUUptime()
+{
+    second_t uptime;
+    ifstream file(UPTIME);
+
+    if (!file)
+    {
+        cout << "Could not open " << UPTIME << endl;
+        cout << strerror(errno) << endl;
+        return -1;
+    }
+    else
+    {
+        file >> uptime;
+        file.close();
+        return uptime;
     }
 }

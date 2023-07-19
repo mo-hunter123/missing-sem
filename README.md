@@ -17,7 +17,7 @@
 	- [ ] Available partitions
 	- [ ] Read rate per application
 	- [ ] Write rate per application
-- [ ] Real-time stats collection
+- [x] Real-time stats collection
 - [ ] UI (check any or both)
 	- [ ] Terminal-based UI
 	- [ ] Prometheus + Grafana

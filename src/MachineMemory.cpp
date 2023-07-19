@@ -8,3 +8,8 @@ void MachineMemory::collectMachineMemoryMetrics()
          << "Avai : " << this->current.availableMemory
          << "Tot : " << this->current.totalMemory << endl;
 }
+
+machine_memory MachineMemory::getCurrentMemory()
+{
+    return this->current;
+}

@@ -16,9 +16,7 @@ private:
 
 public:
     void collectMachineMemoryMetrics();
-    machine_memory getCurrentMemory() {
-        return this->current;
-    }
+    machine_memory getCurrentMemory();
 };
 
 #endif

@@ -6,8 +6,11 @@
 
 #define PROCDIR "/proc"
 #define PROCMEMINFO PROCDIR "/meminfo"
+#define UPTIME PROCDIR "/uptime"
+
 #define PROCSMAPSROLLUP "/smaps_rollup"
 #define PROCCMDLINE "/cmdline"
+
 
 #define MEMTOTAL_TOKEN "MemTotal:"
 #define MEMAVAILABLE_TOKEN "MemAvailable:"
@@ -19,6 +22,8 @@
 
 typedef unsigned long long memory_t;
 typedef int pid_t;
+typedef unsigned int second_t;
+
 enum PULL_STATUS
 {
     SUCCESS = 1,
@@ -37,6 +42,7 @@ machine_memory pullMachineMemoryInformations();
 std::list<pid_t> *getCurrentProcessesPIDs();
 std::list<std::string> *execute_linux_command(const char *cmd);
 std::string getProcessCmdLine(pid_t pid);
+second_t getCPUUptime();
 
 
 #endif

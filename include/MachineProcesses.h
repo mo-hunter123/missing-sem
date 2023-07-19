@@ -13,6 +13,7 @@ using namespace std;
 class MachineProcesses
 {
 private:
+    second_t uptime;
     unordered_map<pid_t, Process *> *processList;
 
 public:
@@ -21,4 +22,5 @@ public:
     void toString();
     void constructProcessList();
     void updateProcessList();
+    second_t getUptime();
 };
