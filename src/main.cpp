@@ -1,19 +1,21 @@
 #include <iostream>
-#include "../include/MachineMemory.h"
-#include "../include/Process.h"
+#include <unistd.h>
+#include <iomanip>
+
+#include "../include/Machine.h"
 
 using namespace std;
 
 int main(int argc, char const *argv[])
 {
-    MachineMemory *machineMemory = new MachineMemory();
-    machineMemory->collectMachineMemoryMetrics();
+    Machine *host = new Machine();
+    host->init();
 
-    pid_t pid = 3225;
-    memory_t me = pullMemoryUsageByPID(pid);
+    system("clear");
+    cout << "-------------------" << endl;
 
-    Process *process = new Process(me, pid);
-    cout << "Mem: " << process->toString() << endl;
+    cout << left << setw(10) << "PID" << left << setw(5) << "Memory usage" << left << setw(8) << endl;
+    host->getMachineProcesses()->toString();
 
     return 0;
 }

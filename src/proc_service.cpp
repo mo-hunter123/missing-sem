@@ -3,6 +3,9 @@
 #include <string.h>
 #include <fstream>
 #include <iostream>
+#include <stdio.h>
+#include <array>
+#include <memory>
 
 using namespace std;
 
@@ -44,13 +47,13 @@ machine_memory pullMachineMemoryInformations()
     file.close();
 }
 
-memory_t pullMemoryUsageByPID(pid_t pid)
+memory_t pullMemoryUsageByPID(pid_t pid, PULL_STATUS& status)
 {
     string token;
     memory_t rss;
 
     // TODO: - check if the process has the smaps_rollup or not,
-    //       - check for file permissions 
+    //       - check for file permissions
     //       - if not the case use /proc/[pid]/smaps
     //          - by going through the file and add all found rss
     // TODO: refactor file opening to have a function returning an ifstream
@@ -63,7 +66,7 @@ memory_t pullMemoryUsageByPID(pid_t pid)
     {
         cout << "Could not open " << PROCSMAPSROLLUP << endl;
         cout << strerror(errno) << endl;
-        exit(-1);
+        status = ERROR;
     }
     else
     {
@@ -72,11 +75,41 @@ memory_t pullMemoryUsageByPID(pid_t pid)
             if (token == RSS_TOKEN)
             {
                 file >> rss;
+                status = SUCCESS;
                 file.close();
                 return rss;
             }
         }
-
-        return NO_MEM_MEASURE;
     }
+    status = ERROR;
+    return NO_MEM_MEASURE;
+}
+
+list<string> *execute_linux_command(const char *cmd)
+{
+    std::array<char, 128> buffer;
+    list<string> *command_result = new list<string>();
+    std::unique_ptr<FILE, decltype(&pclose)> pipe(popen(cmd, "r"), pclose);
+    if (!pipe)
+    {
+        throw std::runtime_error("popen() failed!");
+    }
+    while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr)
+    {
+        command_result->push_back(buffer.data());
+    }
+    return command_result;
+}
+
+list<pid_t> *getCurrentProcessesPIDs()
+{
+    list<string> *pid_str_list = execute_linux_command("ps -A -o pid --no-headers");
+    list<pid_t> *pid_list = new list<pid_t>();
+
+    for (auto &it : *pid_str_list)
+    {
+        pid_list->push_back(stoi(it));
+    }
+
+    return pid_list;
 }

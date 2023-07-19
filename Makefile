@@ -7,11 +7,10 @@ FEXECUTABLE=snapshot
 DEXECUTABLE=build
 CPPEXTENSION=.cpp
 
-
 _target_creation:
 	mkdir -p $(DEXECUTABLE)
 
-compile: clean _target_creation
+compile: _target_creation
 	$(CPPCOMPILER) -o $(DEXECUTABLE)/$(FEXECUTABLE) $(SRC)/*$(CPPEXTENSION) $(CPPFLAGS)
 
 start:

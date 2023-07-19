@@ -1,4 +1,7 @@
 
+#ifndef MACHINE_MEMORY_H
+#define MACHINE_MEMORY_H
+
 #include <iostream>
 #include <fstream>
 #include <string.h>
@@ -14,3 +17,5 @@ private:
 public:
     void collectMachineMemoryMetrics();
 };
+
+#endif
