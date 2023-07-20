@@ -1,20 +1,32 @@
-
+PROJECTNAME=missing_semester_pretest
 CPPCOMPILER=g++
+CPPFLAGS=-Wall -Wextra -I$(IDIR)
+
 IDIR=include
-CPPFLAGS=-I$(IDIR)
-SRC=src
-FEXECUTABLE=snapshot
-DEXECUTABLE=build
-CPPEXTENSION=.cpp
 
-_target_creation:
-	mkdir -p $(DEXECUTABLE)
+SRC_DIR := src
+OBJ_DIR := obj
+BIN_DIR := bin
 
-compile: _target_creation
-	$(CPPCOMPILER) -o $(DEXECUTABLE)/$(FEXECUTABLE) $(SRC)/*$(CPPEXTENSION) $(CPPFLAGS)
+
+# List of source files and corresponding object files
+SRC_FILES := $(wildcard $(SRC_DIR)/*.cpp)
+OBJ_FILES := $(patsubst $(SRC_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(SRC_FILES))
+
+TARGET := $(BIN_DIR)/$(PROJECTNAME)
+
+compile: $(TARGET)
+
+$(TARGET): $(OBJ_FILES)
+	mkdir -p $(BIN_DIR)
+	$(CPPCOMPILER) $(CPPFLAGS) -o $@ $^
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
+	mkdir -p $(OBJ_DIR)
+	$(CPPCOMPILER) $(CPPFLAGS) -c -o $@ $<
 
 start:
-	$(DEXECUTABLE)/$(FEXECUTABLE)
+	$(TARGET)
 
 clean:
-	rm -rf $(DEXECUTABLE)/*
+	rm -rf $(OBJ_DIR) $(BIN_DIR)
