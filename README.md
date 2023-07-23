@@ -19,5 +19,5 @@
 	- [ ] Write rate per application
 - [x] Real-time stats collection
 - [ ] UI (check any or both)
-	- [ ] Terminal-based UI
+	- [x] Terminal-based UI
 	- [ ] Prometheus + Grafana

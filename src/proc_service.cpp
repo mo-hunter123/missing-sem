@@ -52,12 +52,6 @@ memory_t pullMemoryUsageByPID(pid_t pid, PULL_STATUS &status)
     string token;
     memory_t rss;
 
-    // TODO: - check if the process has the smaps_rollup or not,
-    //       - check for file permissions
-    //       - if not the case use /proc/[pid]/smaps
-    //          - by going through the file and add all found rss
-    // TODO: refactor file opening to have a function returning an ifstream
-
     string smaps_rollup_file = PROCDIR + string("/") + to_string(pid) + PROCSMAPSROLLUP;
 
     ifstream file(smaps_rollup_file);
@@ -152,4 +146,78 @@ second_t getCPUUptime()
         file.close();
         return uptime;
     }
+}
+
+void updateProcessStat(process_stats *processStat, unsigned int count, string token)
+{
+    switch (count)
+    {
+    case PROC_STAT_INDEX:
+        processStat->state = token[0];
+        break;
+    case PROC_PPID_INDEX:
+        processStat->ppid = stoi(token);
+        break;
+    case PROC_UTIME_INDEX:
+        processStat->utime = stoi(token);
+        break;
+    case PROC_STIME_INDEX:
+        processStat->stime = stoi(token);
+        break;
+    case PROC_THREADS_INDEX:
+        processStat->num_threads = stoi(token);
+        break;
+    case PROC_STARTTIME_INDEX:
+        processStat->starttime = stoi(token);
+        break;
+    default:
+        break;
+    }
+}
+
+process_stats getProcessStatFromFile(istringstream &stream)
+{
+    string token;
+    unsigned int count = 1;
+    process_stats processStat = {'N', 0, 0};
+    while (stream >> token)
+    {
+        updateProcessStat(&processStat, count, token);
+        count += 1;
+    }
+
+    return processStat;
+}
+
+process_stats getProcessStatFromFile(ifstream &stream)
+{
+    string token;
+    unsigned int count = 1;
+    process_stats processStat = {'N', 0, 0};
+    while (stream >> token)
+    {
+        updateProcessStat(&processStat, count, token);
+        count += 1;
+    }
+
+    return processStat;
+}
+
+process_stats getProcessStat(pid_t pid)
+{
+    string proc_stat_file = PROCDIR + string("/") + to_string(pid) + PROCSTAT;
+    ifstream file(proc_stat_file);
+    process_stats processStat;
+
+    if (!file)
+    {
+        cout << "Could not open " << proc_stat_file << endl;
+        cout << strerror(errno) << endl;
+    }
+    else
+    {
+        processStat = getProcessStatFromFile(file);
+    }
+
+    return processStat;
 }

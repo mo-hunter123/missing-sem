@@ -23,4 +23,5 @@ public:
     void constructProcessList();
     void updateProcessList();
     second_t getUptime();
+    unordered_map<pid_t, Process *> *getProcessList();
 };

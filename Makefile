@@ -49,7 +49,7 @@ start:
 	$(TARGET)
 
 clean:
-	rm -rf $(OBJ_DIR) $(BIN_DIR)
+	rm -rf $(OBJ_DIR) $(BIN_DIR) $(BIN_TESTS_DIR)
 
 test: compile $(TEST_TARGET)
 	$(TEST_TARGET)
