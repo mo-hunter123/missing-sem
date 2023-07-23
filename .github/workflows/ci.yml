@@ -1,0 +1,21 @@
+name: ci pipeline for missing-semester-pretest
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    name: Build and test 
+    runs-on: ubuntu-latest
+
+    steps: 
+      - uses: actions/checkout@v3
+      
+      - name: compile project
+        run: make compile
+      
+      - name: run tests 
+        run: make test
+  
