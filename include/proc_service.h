@@ -4,6 +4,7 @@
 #include <fstream>
 #include <sstream>
 #include <list>
+#include "types.h"
 
 using namespace std;
 
@@ -33,9 +34,6 @@ using namespace std;
 // TODO: respect the unsigned long long type of the memory_t
 #define NO_MEM_MEASURE 1
 
-typedef unsigned long long memory_t;
-typedef int pid_t;
-typedef unsigned int second_t;
 
 enum PULL_STATUS
 {
@@ -43,26 +41,6 @@ enum PULL_STATUS
     ERROR = -1
 };
 
-typedef struct machine_memory
-{
-    memory_t totalMemory;
-    memory_t freeMemory;
-    memory_t availableMemory;
-};
-
-typedef struct process_stats
-{
-    char state;      // 3
-    pid_t ppid;      // 4
-
-    // following times are in clock ticks ==> divide by sysconf(_SC_CLK_TCK) 
-    // to get seconds 
-    unsigned long long int utime; // 14
-    unsigned long long int stime; // 15
-    unsigned long long int starttime; // 22
-
-    int num_threads; // 20
-};
 
 memory_t pullMemoryUsageByPID(pid_t pid, PULL_STATUS &status);
 machine_memory pullMachineMemoryInformations();

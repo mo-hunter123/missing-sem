@@ -1,7 +1,7 @@
 #ifndef PROCESS_H
 #define PROCESS_H
 
-#include "proc_service.h"
+#include "types.h"
 
 using namespace std;
 

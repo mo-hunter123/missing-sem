@@ -2,6 +2,7 @@
 #define UTILS_H 
 
 #include <string>
+#include "types.h"
 
 using namespace std;
 
