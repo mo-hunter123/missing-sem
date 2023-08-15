@@ -1,4 +1,5 @@
 #include "../include/MachineMemory.h"
+#include "../include/proc_service.h"
 
 void MachineMemory::collectMachineMemoryMetrics()
 {
