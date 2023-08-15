@@ -13,6 +13,7 @@ using namespace std;
 #define HOURS_TO_SECONDS 3600
 #define MINUTES_TO_SECONDS 60
 
-string convertSecondsToVisibleDuration(unsigned int seconds);
+string convertSecondsToVisibleDuration(second_t seconds);
+second_t convertClockTicksToSeconds(clktck_t clk_tck);
 
 #endif

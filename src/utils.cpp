@@ -1,9 +1,10 @@
 #include "utils.h"
+#include "proc_service.h"
 #include <iomanip>
 #include <sstream>
+#include <unistd.h>
 
-
-string convertSecondsToVisibleDuration(unsigned int seconds)
+string convertSecondsToVisibleDuration(second_t seconds)
 {
     std::ostringstream resultStream;
 
@@ -23,4 +24,9 @@ string convertSecondsToVisibleDuration(unsigned int seconds)
     resultStream << std::setfill('0') << std::setw(2) << seconds;
 
     return resultStream.str();
+}
+
+second_t convertClockTicksToSeconds(clktck_t clk_tck)
+{
+    return clk_tck / sysconf(_SC_CLK_TCK);
 }

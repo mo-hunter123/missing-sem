@@ -221,3 +221,51 @@ process_stats getProcessStat(pid_t pid)
 
     return processStat;
 }
+
+CPUData* pullProcStats()
+{
+
+    ifstream file(PROCSTATDIR);
+
+    if (!file)
+    {
+        cout << "Could not open " << PROCSTATDIR << endl;
+        cout << strerror(errno) << endl;
+        exit(-1);
+    }
+    // for the moment we will get only the first line that aggregates all cpus numbers
+    string allCpusLine;
+
+    getline(file, allCpusLine);
+
+    return processCPUStat(allCpusLine);
+}
+
+CPUData* processCPUStat(string allCpusLine)
+{
+    string cpuString;
+    clktck_t user_time = 0;
+    clktck_t nice_time = 0;
+    clktck_t system_time = 0;
+    clktck_t idle_time = 0;
+    clktck_t iowait_time = 0;
+    clktck_t irq = 0;
+    clktck_t softirq = 0;
+    clktck_t steal_time = 0;
+    
+    istringstream procStatStream(allCpusLine);
+    if (!(procStatStream >> cpuString >> user_time >> nice_time >> system_time >> idle_time >> iowait_time >>  irq >> softirq >> steal_time))
+    {
+        cout << "Error reading stat cpu data" << endl;
+        exit(-1);
+    }
+
+    return new CPUData(user_time,
+                       nice_time,
+                       system_time,
+                       idle_time,
+                       iowait_time,
+                       irq,
+                       softirq,
+                       steal_time);
+}

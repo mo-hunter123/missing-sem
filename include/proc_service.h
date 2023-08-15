@@ -5,6 +5,7 @@
 #include <sstream>
 #include <list>
 #include "types.h"
+#include "CPUData.h"
 
 using namespace std;
 
@@ -15,6 +16,7 @@ using namespace std;
 #define PROCSMAPSROLLUP "/smaps_rollup"
 #define PROCCMDLINE "/cmdline"
 #define PROCSTAT "/stat"
+#define PROCSTATDIR PROCDIR "/stat"
 
 #define MEMTOTAL_TOKEN "MemTotal:"
 #define MEMAVAILABLE_TOKEN "MemAvailable:"
@@ -48,6 +50,9 @@ std::list<pid_t> *getCurrentProcessesPIDs();
 std::list<std::string> *execute_linux_command(const char *cmd);
 std::string getProcessCmdLine(pid_t pid);
 second_t getCPUUptime();
+CPUData* pullProcStats();
+CPUData* processCPUStat(string allCpusLine);
+
 
 // the function can take ifstream or istringstream as parameters
 process_stats getProcessStatFromFile(ifstream &stream);
