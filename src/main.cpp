@@ -7,32 +7,42 @@
 
 using namespace std;
 
-// TODO: make it dynamic 
-#define REFRESH_RATE 4 // the real time refresh rate in seconds 
+// TODO: make it dynamic
+#define REFRESH_RATE 4 // the real time refresh rate in seconds
+#define GB_TO_KB 1000000
 
 int main(int argc, char const *argv[])
 {
     Machine *host = new Machine();
     host->init();
 
-    // cout << left << setw(10) << "PID" << left << setw(5) << "Memory usage" << left << setw(8) <<  "Command line" << left << setw(5) << endl;
-
     while (true)
     {
-        system("clear");
-        cout << "-------------------"   << endl;
-        cout << "Available Mem : "      << host->getMachineMemory()->getCurrentMemory().availableMemory << endl;
-        cout << "Free Mem : "           << host->getMachineMemory()->getCurrentMemory().freeMemory << endl;
-        cout << "Total Mem : "          << host->getMachineMemory()->getCurrentMemory().totalMemory << endl;
-        cout << "Uptime : "             << convertSecondsToVisibleDuration(host->getMachineProcesses()->getUptime()) << endl;
-        cout << "-------------------"   << endl;
+        machine_memory currentMemoryState = host->getMachineMemory()->getCurrentMemory();
+        memory_t usedMemory = currentMemoryState.totalMemory - currentMemoryState.availableMemory;
+        float cpuUsage = host->getMachineProcesses()->getCpuUsage();
 
-        cout << setw(15) << left << "PID"
-             << setw(15) << left << "MEM"
-             << setw(30) << left << "Command" << endl;
+        system("clear");
+        cout << "--------------------------------------" << endl;
+        cout << "Memory         : " << (float)usedMemory / (float)GB_TO_KB << " GB / " << (float)currentMemoryState.totalMemory / (float)GB_TO_KB << " GB" << endl;
+        cout << "Uptime         : " << convertSecondsToVisibleDuration(convertClockTicksToSeconds(host->getMachineProcesses()->getCPUData()->getTotalTime())) << endl;
+        cout << "Cpu Usage      : " << cpuUsage << " %" << endl;
+        cout << "Cpu free       : " << (100 - cpuUsage) << " %" << endl;
+        cout << "--------------------------------------" << endl;
+
+        cout << setw(10)    << left << "PID"
+             << setw(10)    << left << "PPID"
+             << setw(10)    << left << "MEM"
+             << setw(6)     << left << "STAT"
+             << setw(20)    << left << "TIME"
+             << setw(6)     << left << "CPU%"
+             << setw(10)    << left << "THREADS"
+             << setw(30)    << left << "Command" 
+             << endl;
+
         host->getMachineProcesses()->toString();
         sleep(REFRESH_RATE);
-        host->getMachineProcesses()->updateProcessList();
+        host->updateMachineMetrics();
     }
 
     return 0;
